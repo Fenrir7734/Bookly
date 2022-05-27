@@ -28,7 +28,7 @@
                 Login
               </button>
               <p class="text-center mt-5">Don't have an account?
-                <router-link to="/signup" class="text-primary">Sign in</router-link>
+                <router-link to="/signup" class="text-primary">Sign up</router-link>
               </p>
             </div>
           </form>

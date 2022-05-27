@@ -4,7 +4,7 @@
       <div class="rounded d-flex justify-content-center ">
         <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
           <div class="text-center">
-            <h3 class="text-primary text-green">Sign In</h3>
+            <h3 class="text-primary text-green">Sign Up</h3>
           </div>
           <form @submit.prevent="registerUser">
             <div class="p-4">
