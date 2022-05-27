@@ -34,7 +34,6 @@ CREATE TABLE `review` (
                           `rate` int NOT NULL,
                           `updated_at` datetime(6) DEFAULT NULL,
                           PRIMARY KEY (`book_id`,`user_id`),
-                          KEY `FKiyf57dy48lyiftdrf7y87rnxi` (`user_id`),
-                          CONSTRAINT `FK70yrt09r4r54tcgkrwbeqenbs` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE CASCADE,
-                          CONSTRAINT `FKiyf57dy48lyiftdrf7y87rnxi` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+                          CONSTRAINT `book_id_FK` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE CASCADE,
+                          CONSTRAINT `user_id_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 );
