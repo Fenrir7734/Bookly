@@ -1,0 +1,77 @@
+version: "3.8"
+
+services:
+  back:
+    build: ./backend
+    image: spring-app-img:v1
+    container_name: Spring-boot-app
+    restart: on-failure
+    networks:
+      - backend
+    ports:
+      - 8080:8080
+    volumes:
+      - .m2:/root/.m2
+    environment: 
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url" : "jdbc:mysql://db:3306/UserManagementDB",
+        "spring.datasource.username" : "KH_MG_user",
+        "spring.datasource.password" : "password",
+        "spring.datasource.driver-class-name" : "com.mysql.cj.jdbc.Driver",
+        "spring.jpa.hibernate.ddl-auto" : "none",
+        "spring.sql.init.mode" : "always",
+        "spring.mvc.pathmatch.matching-strategy" : "ant_path_matcher"
+      }'
+    stdin_open: true
+    tty: true
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  front:
+    build: ./frontend
+    image: vuejs-app-img:v1
+    container_name: VueJS-app
+    restart: on-failure
+    networks:
+      - frontend
+    ports:
+      - 8081:8080
+    volumes:
+      -  /app/node_modules
+    depends_on:
+      - back
+
+  db:
+    image: mysql:8.0
+    container_name: Cloud-92876-92874
+    restart: unless-stopped
+    networks:
+      backend:
+        ipv4_address: 10.0.10.3
+    volumes:
+      - db:/var/lib/mysql
+    ports: 
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: KH_MG_user
+      MYSQL_PASSWORD: password 
+      MYSQL_DATABASE: UserManagementDB
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 40
+
+networks:
+  backend:
+    name: Bridge-Zadanie-1
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.10.0/24
+  frontend:
+    driver: bridge
+
+volumes:
+  db:
